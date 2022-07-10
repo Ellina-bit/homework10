@@ -47,7 +47,7 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
 
-      - name: report to Pages
+      - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
@@ -58,10 +58,12 @@ jobs:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
-          to: 411357114
-          token: 5407674418:AAE_vYROpOCzkj5r7jYfb8Do2Y3DKUs_VfY
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ${{ github.actor }} commited:
-            With message message: ${{ github.event.commits[0].message }}
-            Changes hire: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
             Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
